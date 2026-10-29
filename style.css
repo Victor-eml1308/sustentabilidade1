@@ -1,0 +1,573 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --green: #22c55e;
+  --dark-green: #14532d;
+  --road: #343d49;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #dcfce7, #dbeafe);
+  font-family: 'Nunito', sans-serif;
+  color: #17352b;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.game-container {
+  width: min(100%, 1000px);
+  overflow: hidden;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 25px 70px #163b3030;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  background: #ffffff;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  font-size: 42px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 25px;
+  font-weight: 900;
+  color: var(--dark-green);
+}
+
+.brand p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #718579;
+}
+
+.scores {
+  display: flex;
+  gap: 10px;
+}
+
+.score-card {
+  min-width: 105px;
+  padding: 9px 13px;
+  border-radius: 12px;
+  background: #f0fdf4;
+  text-align: center;
+}
+
+.score-card span {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #648071;
+}
+
+.score-card strong {
+  font-size: 25px;
+  font-weight: 900;
+  color: #15803d;
+}
+
+.game-screen {
+  height: 440px;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #9be5ff;
+}
+
+.sky {
+  position: absolute;
+  inset: 0 0 45%;
+  background: linear-gradient(#7dd3fc, #d9f7ff);
+  z-index: -3;
+}
+
+.cloud {
+  position: absolute;
+  font-size: 34px;
+  opacity: 0.9;
+  animation: cloudMove 16s linear infinite;
+}
+
+.cloud-one {
+  top: 20px;
+  left: 10%;
+}
+
+.cloud-two {
+  top: 55px;
+  left: 58%;
+  animation-delay: -8s;
+}
+
+.sun {
+  position: absolute;
+  top: 12px;
+  right: 8%;
+  font-size: 40px;
+}
+
+.bird {
+  position: absolute;
+  top: 70px;
+  left: 45%;
+  font-size: 22px;
+}
+
+.city {
+  position: absolute;
+  top: 82px;
+  bottom: 48%;
+  width: 100%;
+  display: flex;
+  align-items: end;
+  justify-content: space-around;
+  opacity: 0.85;
+  font-size: clamp(30px, 5vw, 54px);
+  z-index: -2;
+}
+
+.road {
+  position: absolute;
+  top: 39%;
+  bottom: 12%;
+  left: 0;
+  width: 100%;
+  background: var(--road);
+  overflow: hidden;
+  border-top: 8px solid #64748b;
+  border-bottom: 8px solid #64748b;
+}
+
+.lane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 33.333%;
+  border-bottom: 3px dashed #ffffff40;
+}
+
+.lane-top {
+  top: 0;
+}
+
+.lane-middle {
+  top: 33.333%;
+}
+
+.lane-bottom {
+  top: 66.666%;
+  border-bottom: none;
+}
+
+.road-lines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 75px,
+    #ffffff09 75px 80px
+  );
+  animation: roadMove 0.8s linear infinite;
+  pointer-events: none;
+}
+
+.sidewalk {
+  position: absolute;
+  bottom: 0;
+  height: 12%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #86c96b;
+  border-top: 5px solid #c1a47b;
+  font-size: 24px;
+  overflow: hidden;
+}
+
+.player {
+  position: absolute;
+  left: 14%;
+  width: 65px;
+  height: 33.333%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  z-index: 5;
+  transition: top 0.12s ease-out;
+  filter: drop-shadow(0 4px 2px #0003);
+}
+
+.player.lane-0 {
+  top: 0;
+}
+
+.player.lane-1 {
+  top: 33.333%;
+}
+
+.player.lane-2 {
+  top: 66.666%;
+}
+
+#runner {
+  display: inline-block;
+  animation: runBounce 0.28s ease-in-out infinite alternate;
+}
+
+.player.walking #runner {
+  animation: walkBounce 0.6s ease-in-out infinite alternate;
+}
+
+.carried {
+  position: absolute;
+  right: -4px;
+  top: 0;
+  font-size: 19px;
+  letter-spacing: -7px;
+  width: 25px;
+  overflow: visible;
+}
+
+.entity {
+  position: absolute;
+  width: 54px;
+  height: 33.333%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 37px;
+  will-change: left;
+  filter: drop-shadow(0 3px 2px #0003);
+}
+
+.entity.can {
+  animation: canWiggle 0.7s ease-in-out infinite alternate;
+}
+
+.entity.bin {
+  font-size: 42px;
+}
+
+.entity.obstacle {
+  animation: obstacleBounce 0.7s ease-in-out infinite alternate;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  background: #0c302b9c;
+  padding: 16px;
+  backdrop-filter: blur(4px);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.menu-card {
+  width: min(100%, 360px);
+  padding: 25px;
+  text-align: center;
+  border-radius: 22px;
+  background: white;
+  box-shadow: 0 15px 50px #0003;
+}
+
+.big-emoji {
+  font-size: 52px;
+}
+
+.menu-card h2 {
+  margin: 5px 0;
+  color: #166534;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+.menu-card > p {
+  color: #64748b;
+  margin: 5px 0 18px;
+}
+
+.instructions {
+  margin: 18px 0;
+  padding: 13px;
+  border-radius: 12px;
+  background: #f0fdf4;
+  text-align: left;
+}
+
+.instructions div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  font-size: 21px;
+}
+
+.instructions span {
+  font-size: 13px;
+  font-weight: 800;
+  color: #365c46;
+}
+
+#startBtn,
+#restartBtn {
+  width: 100%;
+  border: none;
+  padding: 14px 12px;
+  border-radius: 12px;
+  background: #22c55e;
+  color: white;
+  font-weight: 900;
+  box-shadow: 0 4px 0 #15803d;
+  transition: transform 0.1s, background 0.15s;
+}
+
+#startBtn:hover,
+#restartBtn:hover {
+  background: #16a34a;
+}
+
+#startBtn:active,
+#restartBtn:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.menu-card .small-help {
+  margin: 15px 0 0;
+  font-size: 11px;
+}
+
+.final-score {
+  margin: 20px 0;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f0fdf4;
+  font-size: 18px;
+}
+
+.final-score strong {
+  color: #15803d;
+  font-size: 25px;
+}
+
+.pause-label {
+  position: absolute;
+  z-index: 8;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #102b26dd;
+  color: white;
+  padding: 16px 26px;
+  border-radius: 15px;
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  padding: 16px;
+  background: #f8fafc;
+}
+
+.control-btn {
+  width: 65px;
+  height: 52px;
+  border: 2px solid #dcfce7;
+  border-radius: 14px;
+  background: white;
+  font-size: 25px;
+  box-shadow: 0 4px 0 #d1e5d6;
+}
+
+.control-btn:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+.pause-btn {
+  font-size: 21px;
+  background: #f0fdf4;
+}
+
+.game-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 24px 20px;
+  color: #718579;
+  font-size: 12px;
+}
+
+.game-footer strong {
+  color: #15803d;
+}
+
+@keyframes runBounce {
+  from { transform: translateY(-2px) rotate(-4deg); }
+  to { transform: translateY(3px) rotate(4deg); }
+}
+
+@keyframes walkBounce {
+  from { transform: translateY(-1px) rotate(-2deg); }
+  to { transform: translateY(2px) rotate(2deg); }
+}
+
+@keyframes canWiggle {
+  from { transform: rotate(-8deg) translateY(-2px); }
+  to { transform: rotate(8deg) translateY(2px); }
+}
+
+@keyframes obstacleBounce {
+  from { transform: translateY(1px); }
+  to { transform: translateY(-3px); }
+}
+
+@keyframes roadMove {
+  from { background-position-x: 0; }
+  to { background-position-x: -80px; }
+}
+
+@keyframes cloudMove {
+  from { transform: translateX(100px); }
+  to { transform: translateX(-180px); }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 8px;
+    align-items: flex-start;
+  }
+
+  .game-container {
+    border-radius: 17px;
+  }
+
+  .topbar {
+    padding: 14px 12px;
+    flex-wrap: wrap;
+  }
+
+  .brand-icon {
+    font-size: 33px;
+  }
+
+  .brand h1 {
+    font-size: 20px;
+  }
+
+  .scores {
+    width: 100%;
+  }
+
+  .score-card {
+    flex: 1;
+  }
+
+  .game-screen {
+    height: min(60vh, 430px);
+    min-height: 310px;
+  }
+
+  .player {
+    left: 9%;
+    font-size: 36px;
+    width: 54px;
+  }
+
+  .entity {
+    font-size: 31px;
+  }
+
+  .entity.bin {
+    font-size: 36px;
+  }
+
+  .menu-card {
+    padding: 16px;
+  }
+
+  .big-emoji {
+    font-size: 38px;
+  }
+
+  .menu-card h2 {
+    font-size: 24px;
+  }
+
+  .instructions {
+    margin: 10px 0;
+    padding: 8px 12px;
+  }
+
+  .instructions div {
+    margin: 5px 0;
+  }
+
+  .controls {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .control-btn {
+    width: 58px;
+    height: 48px;
+  }
+
+  .game-footer {
+    padding: 0 12px 15px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud,
+  .road-lines,
+  #runner,
+  .entity {
+    animation-duration: 2s;
+  }
+}
