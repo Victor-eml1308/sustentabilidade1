@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eco Runner ♻️</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-container">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon">♻️</span>
+        <div>
+          <h1>Eco Runner</h1>
+          <p>Corra, colete e recicle!</p>
+        </div>
+      </div>
+
+      <div class="scores">
+        <div class="score-card">
+          <span>PONTUAÇÃO</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="score-card">
+          <span>RECORDE</span>
+          <strong id="best">0</strong>
+        </div>
+      </div>
+    </header>
+
+    <section class="game-screen" id="gameScreen">
+      <div class="sky">
+        <span class="cloud cloud-one">☁️</span>
+        <span class="cloud cloud-two">☁️</span>
+        <span class="sun">☀️</span>
+        <span class="bird">🕊️</span>
+      </div>
+
+      <div class="city">
+        <span>🏢</span><span>🏬</span><span>🏠</span>
+        <span>🏢</span><span>🏭</span><span>🏠</span>
+      </div>
+
+      <div class="road" id="road">
+        <div class="lane lane-top" data-lane="0"></div>
+        <div class="lane lane-middle" data-lane="1"></div>
+        <div class="lane lane-bottom" data-lane="2"></div>
+        <div class="road-lines"></div>
+
+        <div id="entities"></div>
+
+        <div id="player" class="player lane-1">
+          <span id="runner">🏃‍➡️</span>
+          <span id="carried" class="carried"></span>
+        </div>
+      </div>
+
+      <div class="sidewalk">
+        <span>🌱</span><span>🌳</span><span>🌿</span>
+        <span>🌳</span><span>🌱</span><span>🌳</span>
+      </div>
+
+      <div id="startScreen" class="overlay">
+        <div class="menu-card">
+          <span class="big-emoji">🏃‍➡️</span>
+          <h2>Eco Runner</h2>
+          <p>Ajude a cidade a ficar limpa!</p>
+
+          <div class="instructions">
+            <div>🥫 <span>Coletar lixo</span></div>
+            <div>🛢️ <span>Desviar dos obstáculos</span></div>
+            <div>🗑️ <span>Descartar para ganhar pontos</span></div>
+            <div>⬆️⬇️ <span>Trocar de pista</span></div>
+          </div>
+
+          <button id="startBtn">▶ COMEÇAR JOGO</button>
+          <p class="small-help">Use as setas do teclado ou os controles na tela.</p>
+        </div>
+      </div>
+
+      <div id="gameOverScreen" class="overlay hidden">
+        <div class="menu-card">
+          <span class="big-emoji">🌎</span>
+          <h2>Fim de jogo!</h2>
+          <p>Continue cuidando do planeta.</p>
+          <div class="final-score">
+            Pontuação: <strong id="finalScore">0</strong>
+          </div>
+          <button id="restartBtn">↻ JOGAR NOVAMENTE</button>
+        </div>
+      </div>
+
+      <div id="pauseLabel" class="pause-label hidden">⏸ PAUSADO</div>
+    </section>
+
+    <section class="controls">
+      <button id="upBtn" class="control-btn" aria-label="Pista de cima">⬆️</button>
+      <button id="pauseBtn" class="control-btn pause-btn" aria-label="Pausar">⏸</button>
+      <button id="downBtn" class="control-btn" aria-label="Pista de baixo">⬇️</button>
+    </section>
+
+    <footer class="game-footer">
+      <span>🌱 Cada descarte vale <strong>10 pontos</strong></span>
+      <span id="speedLabel">Velocidade: 1.0x</span>
+    </footer>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
